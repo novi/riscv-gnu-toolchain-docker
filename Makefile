@@ -11,4 +11,4 @@ run_shell_runtime:
 	docker run --rm -it -v ${RISCV_REPO}:/riscv-gnu-toolchain ubuntu:20.04 bash
 
 build:
-	docker build --build-arg ARCH=rv32emc --build-arg ABI=ilp32e -t ${TAG} .
+	docker build -t ${TAG} .

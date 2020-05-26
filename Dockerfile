@@ -1,7 +1,7 @@
 FROM ubuntu:20.04 AS builder
 
-ARG ARCH
-ARG ABI
+ARG ARCH="rv32emc"
+ARG ABI="ilp32e"
 
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && apt-get -q update && apt-get install -y autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev git
 
@@ -16,7 +16,7 @@ RUN cd /riscv-gnu-toolchain && ./configure --prefix=/opt/riscv --with-arch=$ARCH
 
 FROM ubuntu:20.04 AS runtime
 
-RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && apt-get -q update && apt-get install -y libexpat1 libmpfr6 && rm -r /var/lib/apt/lists/*
+RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && apt-get -q update && apt-get install -y libexpat1 libmpfr6 libmpc3 && rm -r /var/lib/apt/lists/*
 
 COPY --from=builder /opt/riscv /opt/riscv
 
